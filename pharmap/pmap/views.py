@@ -60,10 +60,22 @@ def results(request):
 @login_required
 def medicines(request):
     if request.method == 'GET':
+        medlists = MedList.objects.filter(user=request.user).prefetch_related('listitem_set__medicine')
+
+        userdata = []
+
+        for medlist in medlists:
+            items = [item.medicine for item in medlist.listitem_set.all()]
+            userdata.append({
+                'medlist': medlist,
+                'medicines': items,
+            })
+
         context = {
-            "user": request.user
+            "user": request.user,
+            "medlists": userdata,
         }
-        return render(request, 'pmap/medicines.html')
+        return render(request, 'pmap/medicines.html', context)
     elif request.method == 'POST':
         pass
 

@@ -6,10 +6,27 @@
     <div class="col-6">
         <div class="content">
             <h1>Manage Medicine Lists</h1>
-            <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h4>
-            <p>Nunc vulputate efficitur massa, id eleifend arcu pretium in. Donec cursus odio eget cursus malesuada. Maecenas at enim id magna interdum rhoncus. In auctor sit amet nulla et elementum. Vivamus ullamcorper feugiat cursus. Curabitur pulvinar sem odio, a fringilla lorem iaculis a. Pellentesque ut lacinia quam, vitae tincidunt nulla. Morbi accumsan vitae velit in finibus. Quisque eget lorem dolor. Nulla gravida ac ex a tempus. Morbi porta consectetur sapien vitae varius.</p>
-            <h4>Morbi nec scelerisque urna, nec sagittis arcu.</h4>
-            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent at arcu consectetur, molestie sem vel, tempor quam. In tempor orci et vulputate dapibus. Vivamus ullamcorper erat sem, sit amet fringilla sapien scelerisque at. Mauris mollis, ligula maximus tempor gravida, odio ligula consectetur sem, vel interdum libero erat vitae justo. Aenean in nunc vel nunc lobortis porta non et augue. Sed quis justo non ligula maximus mattis. Proin in nunc tortor.</p>
+            <h4>Add new medicine list</h4>
+
+            <h4>Your medicine lists</h4>
+            {% if medlists %}
+                <ul>
+                    {% for entry in medlists %}
+                        <li>
+                            <strong>{{ entry.medlist.name }} - {{ entry.medlist.created_at }}</strong>
+                            <ul>
+                                {% for med in entry.medicines %}
+                                    <li>{{ med.brand }} ({{ med.generic }})</li>
+                                {% empty %}
+                                <li><em>There's nothing here.</em></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No medlists yet.</p>
+            {% endif %}
         </div>
     </div>
 </div>
