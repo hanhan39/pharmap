@@ -1,6 +1,7 @@
 body {
-    background-color: #202020;
-    color: #FFFFFF;
+    background-color: #FFFFFF;
+    color: #2A2E2C;
+    font-family: "Roboto", sans-serif;
 }
 h1 {
     text-align: center;
@@ -12,7 +13,8 @@ table {
 th {
     padding: 2em;
 }
-h1.main-title {
+h1 {
+    font-family: "Poppins", sans-serif;
     font-size: 48px;
 }
 .content {
@@ -33,10 +35,10 @@ h1.main-title {
     max-width: 30%;
 }
 .nav-main {
-    background-color: #242424;
+    background-color: #467048;
     padding-left: 1em;
     padding-right: 1em;
 }
 .main-footer {
-    background-color: #242424;
+    background-color: #467048;
 }

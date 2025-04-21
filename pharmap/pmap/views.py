@@ -6,6 +6,7 @@ from django.contrib.auth import (
     login, logout, authenticate
 )
 from django.contrib import messages
+from django.urls import reverse
 
 # Create your views here.
 @login_required
@@ -18,12 +19,53 @@ def index(request):
 # locate pharmacies
 @login_required
 def pharmacies(request):
-    return render(request, 'pmap/pharmacies.html')
+    if request.method == 'GET':
+        medlists = MedList.objects.filter(user=request.user)
+        context = {
+            "medlists": medlists,
+            "user": request.user
+        }
+        return render(request, 'pmap/pharmacies.html', context)
+    if request.method == 'POST':
+        medlist_id = request.POST.get('medlist_id')
+        return redirect(f"{reverse('results')}?medlist_id={medlist_id}")
 
-# manage medicines
+@login_required
+def results(request):
+    medlist_id = request.GET.get('medlist_id')
+
+    medicine_ids = set(
+        ListItem.objects.filter(medlist_id=medlist_id).values_list('medicine_id', flat=True)
+    )
+    pharmacies = Pharmacy.objects.prefetch_related('inventorymed_set__medicine')
+    results = []
+
+    for pharmacy in pharmacies:
+        matched_meds = [item.medicine for item in pharmacy.inventorymed_set.all() if item.medicine_id in medicine_ids]
+
+        if matched_meds:
+            results.append({
+                'pharmacy': pharmacy,
+                'matched_medicines': matched_meds,
+                'match_count': len(matched_meds),
+            })
+
+    context = {
+        "user": request.user,
+        "results": results,
+    }
+
+    return render(request, 'pmap/results.html', context)
+
 @login_required
 def medicines(request):
-    return render(request, 'pmap/medicines.html')
+    if request.method == 'GET':
+        context = {
+            "user": request.user
+        }
+        return render(request, 'pmap/medicines.html')
+    elif request.method == 'POST':
+        pass
 
 def login_view(request):
     if request.method == 'GET':
