@@ -7,6 +7,7 @@ from django.contrib.auth import (
 )
 from django.contrib import messages
 from django.urls import reverse
+from django.utils.timezone import now
 
 # Create your views here.
 @login_required
@@ -60,6 +61,7 @@ def results(request):
 @login_required
 def medicines(request):
     if request.method == 'GET':
+        medicines = Medicine.objects.all()
         medlists = MedList.objects.filter(user=request.user).prefetch_related('listitem_set__medicine')
 
         userdata = []
@@ -73,11 +75,30 @@ def medicines(request):
 
         context = {
             "user": request.user,
+            "medicines": medicines,
             "medlists": userdata,
         }
         return render(request, 'pmap/medicines.html', context)
     elif request.method == 'POST':
-        pass
+        name = request.POST.get('name')
+        medicine_ids = request.POST.getlist('medicines')
+
+        if len(medicine_ids) == 0:
+            return render(request, 'pmap/medicines.html', {
+                'error': 'Please select at least one medicine',
+                'medicines': Medicine.objects.all()
+            })
+        
+        medlist = MedList.objects.create(
+            name=name,
+            user=request.user,
+            created_at=now()
+        )
+
+        for med_id in medicine_ids:
+            ListItem.objects.create(medlist=medlist, medicine_id=med_id)
+
+        return render(request, 'pmap/index.html', {"user": request.user})
 
 def login_view(request):
     if request.method == 'GET':

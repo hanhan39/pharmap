@@ -7,7 +7,22 @@
         <div class="content">
             <h1>Manage Medicine Lists</h1>
             <h4>Add new medicine list</h4>
-
+            {% if error %}
+                <p style="color:red;">{{ error }}</p>
+            {% endif %}
+            <form method="POST" class="form-control">
+                {% csrf_token %}
+                <label for="name">List Name:</label>
+                <input type="text" name="name" id="name" class="form-control" required>
+                <label>Select your required medicines:</label>
+                <br>
+                {% for med in medicines %}
+                    <input type="checkbox" name="medicines" value="{{ med.id }}" id="med{{ med.id }}">
+                    <label for="med{{ med.id }}">{{ med.brand }} ({{ med.generic }})</label>
+                    <br>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Create List</button>
+            </form>
             <h4>Your medicine lists</h4>
             {% if medlists %}
                 <ul>
