@@ -1,0 +1,28 @@
+{% extends 'pmap/base.html' %}
+{% load static %}
+
+{% block content%}
+<div class="row justify-content-center align-items-center">
+    <div class="col-6">
+        <div class="content">
+            <h1>Login</h1>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if messages.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <form method="POST" action="#">
+                {% csrf_token %}
+                <label for="username">Username</label>
+                <input type="text" name="username">
+                <label for="password">Password</label>
+                <input type="password" name="password">
+                <input type="submit" value="Login">
+            </form>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}

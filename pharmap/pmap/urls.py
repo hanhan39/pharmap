@@ -23,4 +23,5 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('pharmacies', views.pharmacies, name='pharmacies'),
     path('medicines', views.medicines, name='medicines'),
+    path('accounts/login/', views.login_view, name='login_view'),
 ]
