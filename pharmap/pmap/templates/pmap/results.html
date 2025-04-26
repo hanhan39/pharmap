@@ -1,30 +1,31 @@
 {% extends 'pmap/base.html' %}
 {% load static %}
+{% block title %}| Results{% endblock %}
 
 {% block content%}
 <div class="row justify-content-center align-items-center">
     <div class="col-6">
         <div class="content">
             <h1>Search Results</h1>
-            {% if results %}
-                <ul>
+            <div style="margin-bottom: 5em;">
+                {% if results %}
                     {% for item in results %}
-                        <li>
-                            <strong>{{ item.pharmacy.name }} - {{ item.pharmacy.branch }}</strong><br>
-                            Address: {{ item.pharmacy.address }}<br>
-                            Medicines available:
+                        <div class="list-results">
+                            <h5>{{ item.pharmacy.name }} - {{ item.pharmacy.branch }}</h5>
+                            <p>Address: {{ item.pharmacy.address }}</p>
+                            <strong>Medicines available:</strong>
                             <ul>
                                 {% for med in item.matched_medicines %}
                                     <li>{{ med.brand }} ({{ med.generic }})</li>
                                 {% endfor %}
                             </ul>
-                            <em>{{ item.match_count }} matched</em>
-                        </li>
+                            <em><strong>{{ item.match_count }} matched</strong></em>
+                        </div>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>No matching pharmacies found.</p>
-            {% endif %}
+                {% else %}
+                    <p>No matching pharmacies found.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

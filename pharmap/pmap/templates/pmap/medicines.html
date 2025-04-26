@@ -1,5 +1,6 @@
 {% extends 'pmap/base.html' %}
 {% load static %}
+{% block title %}| Medicine Lists{% endblock %}
 
 {% block content%}
 <div class="row justify-content-center align-items-center">
@@ -10,24 +11,28 @@
             {% if error %}
                 <p style="color:red;">{{ error }}</p>
             {% endif %}
-            <form method="POST" class="form-control">
+            <form method="POST">
                 {% csrf_token %}
-                <label for="name">List Name:</label>
-                <input type="text" name="name" id="name" class="form-control" required>
-                <label>Select your required medicines:</label>
-                <br>
-                {% for med in medicines %}
-                    <input type="checkbox" name="medicines" value="{{ med.id }}" id="med{{ med.id }}">
-                    <label for="med{{ med.id }}">{{ med.brand }} ({{ med.generic }})</label>
+                <div class="form-group">
+                    <label for="name">List Name:</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Select your required medicines:</label>
                     <br>
-                {% endfor %}
+                    {% for med in medicines %}
+                        <input type="checkbox" name="medicines" value="{{ med.id }}" id="med{{ med.id }}">
+                        <label for="med{{ med.id }}">{{ med.brand }} ({{ med.generic }})</label>
+                        <br>
+                    {% endfor %}
+                </div>
                 <button type="submit" class="btn btn-primary">Create List</button>
             </form>
-            <h4>Your medicine lists</h4>
-            {% if medlists %}
-                <ul>
+            <h4 style="margin-top: 1em;">Your medicine lists</h4>
+            <div style="margin-bottom: 5em;">
+                {% if medlists %}
                     {% for entry in medlists %}
-                        <li>
+                        <div class="list-results">
                             <strong>{{ entry.medlist.name }} - {{ entry.medlist.created_at }}</strong>
                             <ul>
                                 {% for med in entry.medicines %}
@@ -36,12 +41,13 @@
                                 <li><em>There's nothing here.</em></li>
                                 {% endfor %}
                             </ul>
-                        </li>
+                        </div>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>No medlists yet.</p>
-            {% endif %}
+                {% else %}
+                    <p>No medicine lists yet.</p>
+                {% endif %}
+            </div>
+
         </div>
     </div>
 </div>

@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>PharMap</title>
+        <title>PharMap {% block title %}| Base{% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'pharmap.png' %}">
         <link rel="stylesheet" href="{% static 'bootstrap-5.3.5-dist/css/bootstrap.css' %}">
         <link rel="stylesheet" href="{% static 'style.css' %}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,8 +21,9 @@
                 </a>
                 <div class="navbar-nav">
                     <a class="nav-link" href="{% url 'index' %}">Home</a>
+                    <a class="nav-link" href="{% url 'medicines' %}">Medicine Lists</a>
                     <a class="nav-link" href="{% url 'pharmacies' %}">Pharmacy Locator</a>
-                    <a class="nav-link" href="{% url 'medicines' %}">Medicines</a>
+                    <a class="nav-link" href="{% url 'login_view' %}">Back to Login</a>
                 </div>
             </div>
         </nav>

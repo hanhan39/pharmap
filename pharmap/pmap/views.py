@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.contrib.auth import (
     login, logout, authenticate
 )
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse
 from django.utils.timezone import now
@@ -98,7 +99,7 @@ def medicines(request):
         for med_id in medicine_ids:
             ListItem.objects.create(medlist=medlist, medicine_id=med_id)
 
-        return render(request, 'pmap/index.html', {"user": request.user})
+        return redirect('pharmacies')
 
 def login_view(request):
     if request.method == 'GET':
@@ -115,4 +116,23 @@ def login_view(request):
             return redirect(request.path_info)
         login(request, user_object)
         return redirect('index')
-    
+
+def signup_view(request):
+    if request.method == 'GET':
+        return render(request, 'pmap/signup_view.html')
+    elif request.method == 'POST':
+        submitted_username = request.POST['username']
+        submitted_email = request.POST['email']
+        submitted_password = request.POST['password']
+        confirm_password = request.POST['confirm-password']
+
+        if submitted_password != confirm_password:
+            messages.add_message(request, messages.INFO, 'Passwords are not identical.')
+            return redirect(request.path_info)
+        elif User.objects.filter(username=submitted_username).exists() | User.objects.filter(email=submitted_email).exists():
+            messages.add_message(request, messages.INFO, 'Invalid sign up. Username or email already exists.')
+            return redirect(request.path_info)
+        else:
+            user = User.objects.create_user(submitted_username, submitted_email, submitted_password)
+            user.save()
+            return redirect('login_view')

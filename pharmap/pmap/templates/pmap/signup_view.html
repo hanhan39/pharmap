@@ -1,12 +1,12 @@
 {% extends 'pmap/base.html' %}
 {% load static %}
-{% block title %}| Log In{% endblock %}
+{% block title %}| Sign Up{% endblock %}
 
 {% block content%}
 <div class="row justify-content-center align-items-center">
     <div class="col-6">
         <div class="content">
-            <h1>Login</h1>
+            <h1>Sign Up</h1>
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -17,16 +17,23 @@
             <form method="POST" action="#">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="username">Username</label>
+                    <label for="username">Username:</label>
                     <input type="text" name="username" class="form-control" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="email">Email:</label>
+                    <input type="text" name="email" class="form-control" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
                     <input type="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
-                <input type="submit" value="Login" class="btn btn-primary">
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password" required>
+                </div>
+                <input type="submit" value="Sign Up" class="btn btn-primary">
             </form>
-            <p style="margin-top: 1em;">Don't have an account? <a href="{% url 'signup_view' %}">Sign up here.</a></p>
         </div>
     </div>
 </div>
