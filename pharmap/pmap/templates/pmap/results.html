@@ -16,7 +16,7 @@
                             <strong>Medicines available:</strong>
                             <ul>
                                 {% for med in item.matched_medicines %}
-                                    <li>{{ med.brand }} ({{ med.generic }})</li>
+                                    <li>{{ med }}</li>
                                 {% endfor %}
                             </ul>
                             <em><strong>{{ item.match_count }} matched</strong></em>

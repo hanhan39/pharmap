@@ -43,7 +43,7 @@ def results(request):
     results = []
 
     for pharmacy in pharmacies:
-        matched_meds = [item.medicine for item in pharmacy.inventorymed_set.all() if item.medicine_id in medicine_ids]
+        matched_meds = [f"{item.medicine.brand} ({item.medicine.generic}) - PHP {item.price}" for item in pharmacy.inventorymed_set.all() if item.medicine_id in medicine_ids]
 
         if matched_meds:
             results.append({
