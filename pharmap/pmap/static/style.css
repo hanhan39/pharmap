@@ -63,3 +63,7 @@ ul {
     background-color: #A9B782;
     border-color: #A9B782;
 }
+.btn-primary:active {
+    background-color: #335441 !important;
+    border-color: #335441 !important;
+}
